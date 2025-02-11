@@ -8,6 +8,11 @@ Anh-Tien Nguyen, Duy Minh Ho Nguyen*, Nghiem Tuong Diep*, Trung Quoc Nguyen, Nha
 [![Static Badge](https://img.shields.io/badge/License-MGPath-brightgreen?link=https%3A%2F%2Fgithub.com%2FHauschildLab%2FMGPATH%2F)]()
 
 
+## 📢 News
+
+### Feb 2025
+- **Public Paper to Arxiv**: We are excited to announce that the arxiv version of MGPath is ready.
+
 ## Model Overview
 
 <p align="center">
@@ -16,3 +21,4 @@ Anh-Tien Nguyen, Duy Minh Ho Nguyen*, Nghiem Tuong Diep*, Trung Quoc Nguyen, Nha
   *Overview of MGPath model architecture*
 
 </p>
+
