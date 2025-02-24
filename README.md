@@ -7,6 +7,7 @@ Anh-Tien Nguyen, Duy Minh Ho Nguyen*, Nghiem Tuong Diep*, Trung Quoc Nguyen, Nha
 
 [![Static Badge](https://img.shields.io/badge/License-MGPath-brightgreen?link=https%3A%2F%2Fgithub.com%2FHauschildLab%2FMGPATH%2F)]()
 
+[[`Paper`](https://arxiv.org/abs/2502.07409)]
 
 ## 📢 News
 
