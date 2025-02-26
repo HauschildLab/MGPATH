@@ -7,6 +7,8 @@
 from typing import List
 import os
 
+from torch.utils.data import DataLoader
+
 from base import BaseHandler
 from models import MILModel
 from datasets import EMBDatasetHandler
@@ -20,10 +22,9 @@ class Evaluator(BaseHandler):
     """
     def __init__(
         self,
-        seed   : int,
         configs: dict
     ) -> None:
-        super(Evaluator, self).__init__(seed=seed, configs=configs)
+        super(Evaluator, self).__init__(configs=configs)
 
     def evaluate(
         self,
@@ -61,17 +62,37 @@ class Evaluator(BaseHandler):
             model = self.load_model(ckpt_path=ckpt_paths[idx])
 
 
+    def inference(
+        self,
+        mode        : str,
+        model       : MILModel,
+        device,
+        data_loader : DataLoader 
+    ):
+        for idx, sample in enumerate(data_loader):
+            features_s, features_l, nodes_s,\
+                                    edges_s, nodes_l, edges_l, label = sample
+            label = label.to(device)
+            features_s, nodes_s, edges_s, = features_s.to(device),\
+                                        nodes_s.to(device), edges_s.to(device)
+            features_l, nodes_l, edges_l = features_l.to(device),\
+                                        nodes_l.to(device), edges_l.to(device)
+            with torch.no_grad():
+                model(features_s, nodes_s, edges_s, features_l, nodes_l, edges_l, label)
+
+
+
+
     def load_model(
         self,
         ckpt_path: str
     ):
         config = {}
-        config['input_size'] = 512
-        config['hidden_size'] = 192
+        config['input_size'] = self.config['input_size']
         config['num_classes'] = 2 #testing for TCGA-NSCLC
         config['ratio_graph'] = 0.2
         config['freeze_textEn'] = True
-        config['typeGNN'] = 'gat_conv'
+        config['typeGNN'] = self.config['gat_conv']
         model = MILModel(config=config, num_classes=config['num_classes'])
         return model
 

@@ -15,10 +15,9 @@ class BaseHandler(object):
 
     def __init__(
         self,
-        seed   : int,
         configs: dict
     ):
-        self.seed = seed
+        self.seed = configs['seed']
         self.configs = configs
 
     def load_slide_ids(

@@ -13,11 +13,14 @@ import utils
 from eval import Evaluator
 
 def eval(
-    seed: int,
+    args: argparse.Namespace,
     config: dict,
 ):
-    evaluator = Evaluator(seed, config)
-
+    args = vars(args)
+    config.update(args)
+    
+    evaluator = Evaluator(config)
+    evaluator.evaluate()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Evaluation Script')
@@ -26,7 +29,6 @@ if __name__ == '__main__':
     parser.add_argument('--k_end', type=int, default=5, help='end fold')
     parser.add_argument('--task', type=str,\
                         help='task name, such as task_tcga_lung_subtyping')
-    parser.add_argument("--text_prompt_path", type=str, default=None)
     parser.add_argument("--config", type=str, default=None,\
             help='path to the config yaml file, such as yaml/tcga_lung.yml')
     parser.add_argument("--checkpoint_dir", type=str, default=None,\
@@ -36,12 +38,20 @@ if __name__ == '__main__':
     parser.add_argument("--splits_dir", type=str, default=None,\
                             help='path to the splits directory containing'\
                                                 ' the splits for each fold')
+    parser.add_argument("--input_size", type=int, default=1024,\
+                            help='the dimension of the embedding features')
+    parser.add_argument("--free_text_encoder", action='store_true',\
+                                     default=True, help='freeze text encoder.')
+    parser.add_argument('--ratio_graph', type=float, default=0.2,\
+                                          help='the ratio of spatial features')
     parser.add_argument("--output_dir", type=str, default=None)
 
 
     args = parser.parse_args()
     utils.create_dir(args.output_dir)
-
-    args.text_prompt = utils.read_text_prompt_file(args.text_prompt_path)
+    
     configs = utils.read_yaml_file(args.config)
-    eval(args.seed, configs)
+    configs['text_prompt'] = utils.read_text_prompt_file(\
+                                                  configs['text_prompt'])
+    eval(args, configs)
+

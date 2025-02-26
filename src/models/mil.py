@@ -12,6 +12,7 @@ from torch_geometric.nn import GATConv
 
 import utils
 from models import PLIPProjector
+from models import PLIPTextEncoder
 from models import PromptLearner
 
 
@@ -52,8 +53,8 @@ def create_gnn_model(
     if typeGNN == "gat_conv":
         print("============Use GAT Conv")
         model = GATConv(
-            in_channels=config.input_size,          # Input feature dimension
-            out_channels=config.input_size,   # Hidden feature dimension)
+            in_channels=config['input_size'],          # Input feature dimension
+            out_channels=config['input_size'],   # Hidden feature dimension)
         )
     else:
         raise Exception("Wrong type GNN.")
@@ -68,23 +69,34 @@ class MILModel(torch.nn.Module):
         super(MILModel, self).__init__()
         self.loss_ce = torch.nn.CrossEntropyLoss()
         self.num_classes = num_classes
-        self.L = config.input_size
-        self.D = config.hidden_size
+        print("config['input_size']: ", config['input_size'])
+        self.L = config['input_size']
+        #self.D = config['hidden_size']
         self.K = 1
         self.N = 4
         self.eps = 0.1
         self.max_iter = 100
 
-        self.use_plip = config.use_plip
-        self.ratio_graph = config.ratio_graph
-        self.use_standard_attention = config.use_standard_attention
+        self.ratio_graph = config['ratio_graph']
 
         clip_model = PLIPProjector()
-        checkpoint_dict = torch.load("path/to/clip_mlp_weights_dual_tokenSave_plip_best.pth")
+        checkpoint_dict = torch.load("/mnt/lustre-grete/usr/u12045/projects/OTP/src/mlp_weight/clip_mlp_weights_dual_tokenSave_plip_best.pth")
         clip_model.load_state_dict(checkpoint_dict['model_state_dict'])
-        self.prompt_learner = PromptLearner(config.text_prompt,\
+
+        self.text_encoder = PLIPTextEncoder(clip_model)
+        self.ImageMLP = clip_model.ImageMLP
+
+        for name, param in self.text_encoder.named_parameters():
+            param.requires_grad = False
+
+        for param in self.text_encoder.proj.parameters():
+            param.requires_grad = True
+
+
+        self.prompt_learner = PromptLearner(config['text_prompt'],\
                                                             clip_model.float())
         self.logit_scale = clip_model.temperature
+        """
         self.dual_mlp = config.dual_mlp
         self.mlp_ratio = config.mlp_ratio
         if config.mlp_ratio is None and config.dual_mlp:
@@ -94,12 +106,13 @@ class MILModel(torch.nn.Module):
             self.mlp_ratio_param = config.mlp_ratio
 
         print("Value of MLP ratio:", self.mlp_ratio_param)
-        self.norm = torch.nn.LayerNorm(config.input_size)
+        """
+        self.norm = torch.nn.LayerNorm(config['input_size'])
 
-        self.graph = create_gnn_model(config.typeGNN, config)
+        self.graph = create_gnn_model(config['typeGNN'], config)
 
         self.learnable_image_center = torch.nn.Parameter(\
-                                    torch.Tensor(*[64, 1, config.input_size]))
+                                    torch.Tensor(*[64, 1, config['input_size']]))
         trunc_normal_(self.learnable_image_center, std=.02)
 
     def graph_adapter(self, node_features, edge_index):
@@ -144,11 +157,9 @@ class MILModel(torch.nn.Module):
     def forward(
         self,
         x_s,
-        coord_s,
         node_s,
         edge_s,
         x_l,
-        coords_l,
         node_l,
         edge_l,
         label
@@ -162,12 +173,13 @@ class MILModel(torch.nn.Module):
                                         tokenized_prompts['attention_mask'],\
                                                 tokenized_prompts['input_ids'])
 
+        """
         if self.dual_mlp:
             if self.mlp_ratio is None:
                 text_features = (1-torch.nn.Sigmoid()(self.mlp_ratio_param))*text_features + torch.nn.Sigmoid()(self.mlp_ratio_param)*text_features_new
             else:
                 text_features = (1-self.mlp_ratio_param)*text_features + self.mlp_ratio_param*text_features_new
-
+        """
         text_features =  text_features.contiguous().view(self.N,\
                                                             self.n_cls, self.d)
 

@@ -13,8 +13,8 @@ from models import Adapter
 class PLIPTextEncoder(torch.nn.Module):
     def __init__(
         self,
-        projector,
-        dual_mlp=False
+        projector
+        #dual_mlp=False
     ) -> None:
         super().__init__()
         print("use PLIP Text Encoder")
@@ -22,10 +22,10 @@ class PLIPTextEncoder(torch.nn.Module):
         self.final_layer_norm = projector.text_model.text_model.final_layer_norm
         self.eos_token_id = projector.text_model.text_model.eos_token_id
         self.proj = projector.TextMLP
-        self.dual_mlp = dual_mlp
-        if dual_mlp:
-            print("=======Using dual MLP text==========")
-            self.proj_new = Adapter(image=False, hidden=512)
+        #self.dual_mlp = dual_mlp
+        #if dual_mlp:
+        #    print("=======Using dual MLP text==========")
+        #    self.proj_new = Adapter(image=False, hidden=512)
 
     def forward(
         self,
@@ -67,8 +67,10 @@ class PLIPTextEncoder(torch.nn.Module):
             ]
 
         projected = self.proj(pooled_output)
-        if self.dual_mlp:
-            projected_new = self.proj_new(pooled_output)
-        else:
-            projected_new = 0
-        return projected, projected_new
+        #if self.dual_mlp:
+        #    projected_new = self.proj_new(pooled_output)
+        #else:
+            #projected_new = 0
+        #return projected, projected_new
+        return projected, 0
+

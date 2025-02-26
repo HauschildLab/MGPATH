@@ -6,4 +6,7 @@
 """
 from .adapter import Adapter
 from .plip_projector import PLIPProjector
+from .plip_text_encoder import PLIPTextEncoder
 from .prompt_learner import PromptLearner
+from .mil import MILModel
+
