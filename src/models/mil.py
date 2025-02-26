@@ -173,13 +173,6 @@ class MILModel(torch.nn.Module):
                                         tokenized_prompts['attention_mask'],\
                                                 tokenized_prompts['input_ids'])
 
-        """
-        if self.dual_mlp:
-            if self.mlp_ratio is None:
-                text_features = (1-torch.nn.Sigmoid()(self.mlp_ratio_param))*text_features + torch.nn.Sigmoid()(self.mlp_ratio_param)*text_features_new
-            else:
-                text_features = (1-self.mlp_ratio_param)*text_features + self.mlp_ratio_param*text_features_new
-        """
         text_features =  text_features.contiguous().view(self.N,\
                                                             self.n_cls, self.d)
 
