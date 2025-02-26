@@ -80,7 +80,7 @@ class MILModel(torch.nn.Module):
         self.ratio_graph = config['ratio_graph']
 
         clip_model = PLIPProjector()
-        checkpoint_dict = torch.load("/path/to/clip_mlp_weights_dual_tokenSave_plip_best.pth")
+        checkpoint_dict = torch.load(config['alignment'])
         clip_model.load_state_dict(checkpoint_dict['model_state_dict'])
 
         self.text_encoder = PLIPTextEncoder(clip_model)

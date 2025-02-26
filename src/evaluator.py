@@ -9,18 +9,24 @@ import argparse
 import numpy
 import pandas
 
+import torch
+
 import utils
 from eval import Evaluator
 
 def eval(
     args: argparse.Namespace,
-    config: dict,
+    configs: dict,
 ):
     args = vars(args)
-    config.update(args)
-    
-    evaluator = Evaluator(config)
-    evaluator.evaluate()
+    configs.update(args)
+   
+    device = torch.device("cuda")
+    configs['device'] = device
+    evaluator = Evaluator(configs)
+    evaluator.evaluate(k_start=configs['k_start'], k_end=configs['k_end'],\
+                                   ckpt_dir=configs['checkpoint_dir'],\
+                                             splits_dir=configs['splits_dir'])
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Evaluation Script')
@@ -44,6 +50,8 @@ if __name__ == '__main__':
                                      default=True, help='freeze text encoder.')
     parser.add_argument('--ratio_graph', type=float, default=0.2,\
                                           help='the ratio of spatial features')
+    parser.add_argument('--alignment', type=str, default=None,\
+                               help='path to checkpoint of the PLIP alignment')
     parser.add_argument("--output_dir", type=str, default=None)
 
 

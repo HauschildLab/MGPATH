@@ -7,6 +7,9 @@
 from typing import List
 import os
 
+from tqdm import tqdm
+
+import torch
 from torch.utils.data import DataLoader
 
 from base import BaseHandler
@@ -52,7 +55,6 @@ class Evaluator(BaseHandler):
         data_splits = self.load_splits_data(ckpt_paths=ckpt_paths,\
                                                         splits_dir=splits_dir)
         for idx in range(len(ckpt_paths)):
-            checkpoint = self.load_checkpoint(ckpt_paths[idx])
             test_slide_ids = data_splits[idx]['test_slide_ids']
             test_labels = data_splits[idx]['test_labels']
             test_data_handler = self.create_data_handler(labels=test_labels,\
@@ -60,7 +62,9 @@ class Evaluator(BaseHandler):
             test_data_loader = self.define_data_loader(\
                                                 data_handler=test_data_handler)
             model = self.load_model(ckpt_path=ckpt_paths[idx])
-
+            self.inference(mode='test', model=model,\
+                                         device=self.configs['device'],\
+                                                 data_loader=test_data_loader)
 
     def inference(
         self,
@@ -69,7 +73,9 @@ class Evaluator(BaseHandler):
         device,
         data_loader : DataLoader 
     ):
-        for idx, sample in enumerate(data_loader):
+        model = model.to(device)
+        model.eval()
+        for idx, sample in tqdm(enumerate(data_loader)):
             features_s, features_l, nodes_s,\
                                     edges_s, nodes_l, edges_l, label = sample
             label = label.to(device)
@@ -78,9 +84,8 @@ class Evaluator(BaseHandler):
             features_l, nodes_l, edges_l = features_l.to(device),\
                                         nodes_l.to(device), edges_l.to(device)
             with torch.no_grad():
-                model(features_s, nodes_s, edges_s, features_l, nodes_l, edges_l, label)
-
-
+                Y_prob, Y_hat, loss = model(features_s, nodes_s, edges_s,\
+                                           features_l, nodes_l, edges_l, label)
 
 
     def load_model(
@@ -88,12 +93,16 @@ class Evaluator(BaseHandler):
         ckpt_path: str
     ):
         config = {}
-        config['input_size'] = self.config['input_size']
-        config['num_classes'] = 2 #testing for TCGA-NSCLC
-        config['ratio_graph'] = 0.2
-        config['freeze_textEn'] = True
-        config['typeGNN'] = self.config['gat_conv']
+        config['input_size'] = self.configs['input_size']
+        config['num_classes'] = len(self.configs['labels'])
+        config['ratio_graph'] = self.configs['ratio_graph']
+        config['freeze_textEn'] = self.configs['free_text_encoder']
+        config['alignment'] = self.configs['alignment'] 
+        config['text_prompt'] = self.configs['text_prompt']
+        config['typeGNN'] = 'gat_conv'
         model = MILModel(config=config, num_classes=config['num_classes'])
+        ckpt = torch.load(ckpt_path)
+        model.load_state_dict(ckpt, strict=True)
         return model
 
 
@@ -107,11 +116,11 @@ class Evaluator(BaseHandler):
                             seed=self.seed,\
                             labels=labels,\
                             slide_ids=slide_ids,\
-                            label_dict=self.configs['labels'],\
-                            data_dir_s=self.configs['scale_s_dir'],\
-                            data_graph_dir_s=self.configs['graph_s_dir'],\
-                            data_dir_l=self.configs['scale_l_dir'],\
-                            data_graph_dir_l=self.configs['graph_l_dir']
+                            label_dict=configs['labels'],\
+                            data_dir_s=configs['location']['scale_s_dir'],\
+                            data_graph_dir_s=configs['location']['graph_s_dir'],\
+                            data_dir_l=configs['location']['scale_l_dir'],\
+                            data_graph_dir_l=configs['location']['graph_l_dir']
         )
         return data_handler
 
