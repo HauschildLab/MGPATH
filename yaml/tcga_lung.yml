@@ -1,0 +1,15 @@
+dataset:
+    name: "TCGA-NSCLC"
+    task: "tcga_lung_subtyping"
+
+text_prompt: "/mnt/lustre-grete/usr/u12045/projects/OT_GROUP_FORMER_LUNG_v13_newVer_eAT_PLIP/OTP/src/text_prompt/TCGA_Lung_two_scale_text_prompt_2.csv"
+
+location:
+    scale_s_dir: "../../OTP/src/feature_extraction/saved_dir/patch_size_2048/gigapath_embeddings"
+    scale_l_dir: "../../OTP/src/feature_extraction/saved_dir/patch_size_1024/gigapath_embeddings"
+    graph_s_dir: "../../OTP/src/feature_extraction/saved_dir/patch_size_2048/gigapath_embeddings_graph"
+    graph_l_dir: "../../OTP/src/feature_extraction/saved_dir/patch_size_1024/gigapath_embeddings_graph"
+
+labels:
+    "LUAD": 0
+    "LUSC": 1

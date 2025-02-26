@@ -26,18 +26,19 @@ class Meter(object):
         if num_classes == 2:
             self.acc_metric = BinaryAccuracy()
             self.auc_metric = BinaryAUROC()
-            self.f1_metric = BinaryF1Score(average="macro")
+            self.f1_metric = BinaryF1Score()
         else:
             self.acc_metric = MulticlassAccuracy(num_classes=num_classes)
-            self.auc_metric = MulticlassAUROC(num_classes=num_classes)
+            self.auc_metric = MulticlassAUROC(num_classes=num_classes,\
+                                                              average="macro")
             self.f1_metric = MulticlassF1Score(num_classes=num_classes,\
-                                                            average="macro")
+                                                              average="macro")
 
     def add(
         self,
-        prob,
-        pred,
-        label
+        prob: torch.Tensor,
+        pred: torch.Tensor,
+        label: torch.Tensor
     ) -> None:
         self.preds.append(pred)
         self.labels.append(label)
@@ -50,16 +51,27 @@ class Meter(object):
         self.preds = []
         self.labels = []
 
-    def update(
+    def compute(
         self
-    ) -> Tuple:
-        accuracy = self.acc_metric.update(self.preds, self.labels)
+    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        preds = torch.tensor(self.preds)
+        labels = torch.tensor(self.labels)
+        
+        probs = torch.stack(self.probs)
+        if self.num_classes == 2: #binary class
+            probs = probs.squeeze(dim=1)
+            probs = probs[:, 1]
+
+        self.acc_metric.update(preds, labels)
+        accuracy = self.acc_metric.compute()
         self.acc_metric.reset()
 
-        auc = self.auc_metric.update(self.probs, self.labels)
+        self.auc_metric.update(probs, labels)
+        auc = self.auc_metric.compute()
         self.auc_metric.reset()
 
-        f1 = self.f1_metric.update(self.preds, self.labels)
+        self.f1_metric.update(preds, labels)
+        f1 = self.f1_metric.compute()
         self.f1_metric.reset()
         return accuracy, auc, f1
 
@@ -71,11 +83,11 @@ if __name__ == "__main__":
     for idx in range(len(y_pred)):
         meter.add(probs[idx], y_pred[idx], y_true[idx])
 
-    accuracy, auc, f1 = meter.update()
+    accuracy, auc, f1 = meter.compute()
     print(f"Accuracy: {accuracy} | AUC: {auc} | F1: {f1}")
 
     meter.reset()
-
+    
     y_pred = torch.tensor([0, 1, 1, 2, 1, 2, 0, 1])
     y_true = torch.tensor([0, 1, 1, 2, 1, 2, 0, 1])
     probs = torch.tensor([
@@ -92,4 +104,6 @@ if __name__ == "__main__":
     for idx in range(len(y_pred)):
         meter.add(probs[idx], y_pred[idx], y_true[idx])
 
-    accuracy, auc, f1 = meter.update()
+    accuracy, auc, f1 = meter.compute()
+    print(f"Accuracy: {accuracy} | AUC: {auc} | F1: {f1}")
+

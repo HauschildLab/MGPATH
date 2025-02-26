@@ -23,6 +23,7 @@ def eval(
    
     device = torch.device("cuda")
     configs['device'] = device
+    configs['num_classes'] = len(configs['labels'])
     evaluator = Evaluator(configs)
     evaluator.evaluate(k_start=configs['k_start'], k_end=configs['k_end'],\
                                    ckpt_dir=configs['checkpoint_dir'],\

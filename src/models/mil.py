@@ -51,10 +51,9 @@ def create_gnn_model(
 ):
     model = None
     if typeGNN == "gat_conv":
-        print("============Use GAT Conv")
         model = GATConv(
-            in_channels=config['input_size'],          # Input feature dimension
-            out_channels=config['input_size'],   # Hidden feature dimension)
+            in_channels=config['input_size'],     
+            out_channels=config['input_size'],  
         )
     else:
         raise Exception("Wrong type GNN.")
@@ -69,9 +68,7 @@ class MILModel(torch.nn.Module):
         super(MILModel, self).__init__()
         self.loss_ce = torch.nn.CrossEntropyLoss()
         self.num_classes = num_classes
-        print("config['input_size']: ", config['input_size'])
         self.L = config['input_size']
-        #self.D = config['hidden_size']
         self.K = 1
         self.N = 4
         self.eps = 0.1
@@ -96,17 +93,7 @@ class MILModel(torch.nn.Module):
         self.prompt_learner = PromptLearner(config['text_prompt'],\
                                                             clip_model.float())
         self.logit_scale = clip_model.temperature
-        """
-        self.dual_mlp = config.dual_mlp
-        self.mlp_ratio = config.mlp_ratio
-        if config.mlp_ratio is None and config.dual_mlp:
-            self.mlp_ratio_param = torch.nn.Parameter(torch.tensor([0.0]),\
-                                                            requires_grad=True)
-        else:
-            self.mlp_ratio_param = config.mlp_ratio
 
-        print("Value of MLP ratio:", self.mlp_ratio_param)
-        """
         self.norm = torch.nn.LayerNorm(config['input_size'])
 
         self.graph = create_gnn_model(config['typeGNN'], config)

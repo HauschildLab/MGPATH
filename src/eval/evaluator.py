@@ -9,11 +9,14 @@ import os
 
 from tqdm import tqdm
 
+import pandas
+
 import torch
 from torch.utils.data import DataLoader
 
 from base import BaseHandler
 from models import MILModel
+from metrics import Meter
 from datasets import EMBDatasetHandler
 
 
@@ -35,7 +38,7 @@ class Evaluator(BaseHandler):
         k_end      : int,
         ckpt_dir   : str,
         splits_dir : str
-    ):
+    ) -> dict:
         """
         @desc:
             - the function is implemented to evaluate the performance
@@ -50,6 +53,7 @@ class Evaluator(BaseHandler):
             - splits_dir: str
                 + the directory to save the slide ids for each fold.
         """
+        summary = {}
         ckpt_paths = self.load_checkpoint_paths(k_start=k_start,
                                                 k_end=k_end, ckpt_dir=ckpt_dir)
         data_splits = self.load_splits_data(ckpt_paths=ckpt_paths,\
@@ -62,19 +66,30 @@ class Evaluator(BaseHandler):
             test_data_loader = self.define_data_loader(\
                                                 data_handler=test_data_handler)
             model = self.load_model(ckpt_path=ckpt_paths[idx])
-            self.inference(mode='test', model=model,\
+            results = self.inference(mode=f'fold_{idx}', model=model,\
                                          device=self.configs['device'],\
                                                  data_loader=test_data_loader)
+            summary.update(results)
+        avg_acc = sum(fold['ACC'] for fold in results.values()) / len(results)
+        avg_auc = sum(fold['AUC'] for fold in results.values()) / len(results)
+        avg_f1 = sum(fold['F1'] for fold in results.values()) / len(results)
+        summary_df = pandas.DataFrame.from_dict(summary, orient='index')
+        average_values = {'ACC': avg_acc, 'AUC': avg_auc, 'F1': avg_f1}
+        summary_df.loc['Average'] = average_values
+        summary_df.to_csv(os.path.join(self.configs['output_dir'], 'results.csv'), index=True)
+        return summary
 
     def inference(
         self,
         mode        : str,
         model       : MILModel,
-        device,
+        device      : torch.device,
         data_loader : DataLoader 
-    ):
+    ) -> dict:
+        results = {}
         model = model.to(device)
         model.eval()
+        meter = Meter(num_classes=self.configs['num_classes'])
         for idx, sample in tqdm(enumerate(data_loader)):
             features_s, features_l, nodes_s,\
                                     edges_s, nodes_l, edges_l, label = sample
@@ -86,6 +101,15 @@ class Evaluator(BaseHandler):
             with torch.no_grad():
                 Y_prob, Y_hat, loss = model(features_s, nodes_s, edges_s,\
                                            features_l, nodes_l, edges_l, label)
+                meter.add(Y_prob, Y_hat, label)
+        accuracy, auc, f1 = meter.compute()
+        results[mode] = {
+            'ACC' : float(accuracy.detach().cpu().numpy()),
+            'AUC' : float(auc.detach().cpu().numpy()),
+            'F1'  : float(f1.detach().cpu().numpy())
+        }
+        return results
+
 
 
     def load_model(
@@ -94,7 +118,7 @@ class Evaluator(BaseHandler):
     ):
         config = {}
         config['input_size'] = self.configs['input_size']
-        config['num_classes'] = len(self.configs['labels'])
+        config['num_classes'] = self.configs['num_classes']
         config['ratio_graph'] = self.configs['ratio_graph']
         config['freeze_textEn'] = self.configs['free_text_encoder']
         config['alignment'] = self.configs['alignment'] 
@@ -165,3 +189,4 @@ class Evaluator(BaseHandler):
             ckpt_path = os.path.join(ckpt_dir, f"fold_{fold}_checkpoint.pt")
             ckpt_paths.append(ckpt_path)
         return ckpt_paths
+
