@@ -8,6 +8,7 @@ from typing import List
 import os
 
 from base import BaseHandler
+from models import MILModel
 from datasets import EMBDatasetHandler
 
 
@@ -57,13 +58,22 @@ class Evaluator(BaseHandler):
                                 slide_ids=test_slide_ids, configs=self.configs)
             test_data_loader = self.define_data_loader(\
                                                 data_handler=test_data_handler)
+            model = self.load_model(ckpt_path=ckpt_paths[idx])
 
 
     def load_model(
         self,
         ckpt_path: str
     ):
-        pass
+        config = {}
+        config['input_size'] = 512
+        config['hidden_size'] = 192
+        config['num_classes'] = 2 #testing for TCGA-NSCLC
+        config['ratio_graph'] = 0.2
+        config['freeze_textEn'] = True
+        config['typeGNN'] = 'gat_conv'
+        model = MILModel(config=config, num_classes=config['num_classes'])
+        return model
 
 
     def create_data_handler(

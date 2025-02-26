@@ -10,24 +10,18 @@ import numpy
 import pandas
 
 import utils
+from eval import Evaluator
 
 def eval(
-    k_start: int,
-    k_end: int,
-    checkpoint_dir: str,
+    seed: int,
+    config: dict,
 ):
-    ckpt_paths = []
-    folds = range(k_start, k_end + 1)
-    for fold in folds:
-        ckpt_path = os.path.join(checkpoint_dir,\
-                                        f"fold_{fold}_checkpoint.pt")
-        ckpt_paths.append(ckpt_path)
-
-
+    evaluator = Evaluator(seed, config)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Evaluation Script')
+    parser.add_argument('--seed', type=int, default=2024, help='seed number')
     parser.add_argument('--k_start', type=int, default=0, help='start fold')
     parser.add_argument('--k_end', type=int, default=5, help='end fold')
     parser.add_argument('--task', type=str,\
@@ -50,3 +44,4 @@ if __name__ == '__main__':
 
     args.text_prompt = utils.read_text_prompt_file(args.text_prompt_path)
     configs = utils.read_yaml_file(args.config)
+    eval(args.seed, configs)
