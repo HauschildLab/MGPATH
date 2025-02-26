@@ -1,3 +1,4 @@
+# coding=utf-8
 """
 @author : Tien Nguyen
 @date   : 2024-Nov-09
@@ -8,6 +9,7 @@ from typing import Tuple
 import os
 import h5py
 
+import torch
 import numpy
 
 import utils
@@ -17,22 +19,23 @@ class EMBDatasetHandler(DatasetHandler):
     """
     @desc:
         1) This class is a subclass of DatasetHandler.
-        2) This class is designed to handle embedding features of 
-            Whole Slide Images (WSIs), which are extracted from vision 
-            encoders or vision foundation models. These embedding features 
+        2) This class is designed to handle embedding features of
+            Whole Slide Images (WSIs), which are extracted from vision
+            encoders or vision foundation models. These embedding features
             are stored in H5 files.
     """
 
     def __init__(
         self,
-        seed: int,
-        csv_path: str,
-        label_dict: dict,
-        data_dir_s: str,
-        data_graph_dir_s: str,
-        data_dir_l: str,
-        data_graph_dir_l: str,
-    ):
+        seed             : int,
+        labels           : list,
+        slide_ids        : list,
+        label_dict       : dict,
+        data_dir_s       : str,
+        data_graph_dir_s : str,
+        data_dir_l       : str,
+        data_graph_dir_l : str,
+    ) -> None:
         """
         @desc:
             1) there are two kinds of embedding features which are extracted
@@ -49,7 +52,8 @@ class EMBDatasetHandler(DatasetHandler):
         """
         super(EMBDatasetHandler, self).__init__(
             seed=seed,
-            csv_path=csv_path,
+            labels=labels,
+            slide_ids=slide_ids,
             label_dict=label_dict,
         )
         self.data_dir_s = data_dir_s
@@ -58,7 +62,7 @@ class EMBDatasetHandler(DatasetHandler):
         self.data_graph_dir_l = data_graph_dir_l
 
     def __getitem__(
-        self, 
+        self,
         index: int,
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, \
                                             torch.Tensor, torch.Tensor, int]:
@@ -90,10 +94,10 @@ class EMBDatasetHandler(DatasetHandler):
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         graph_scale_s_pkl_file = os.path.join(self.data_graph_dir_s,\
                                                         f"{slide_id}.pickle")
-        graph_scale_s = load_pickle_file(graph_scale_s_pkl_file)
+        graph_scale_s = utils.load_pickle_file(graph_scale_s_pkl_file)
         graph_scale_l_pkl_file = os.path.join(self.data_graph_dir_l,\
                                                         f"{slide_id}.pickle")
-        graph_scale_l = load_pickle_file(graph_scale_l_pkl_file)
+        graph_scale_l = utils.load_pickle_file(graph_scale_l_pkl_file)
         nodes_s = graph_scale_s['nodes']
         edges_s = graph_scale_s['edges']
         nodes_l = graph_scale_l['nodes']
