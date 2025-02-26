@@ -1,6 +1,7 @@
 # coding=utf-8
 """
-@author : Tien Nguyen
+@author : Tien Nguyen, Duy Nguyen, Nghiem Diep, Trung Nguyen
+@modify : Tien Nguyen
 @date   : 2024-Nov-09
 @update : 2025-Feb-25
 """
