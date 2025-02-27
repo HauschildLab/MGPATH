@@ -6,10 +6,15 @@
 
 ```bash
 python3 evaluator.py \
-    --k_start 0 \
-    --k_end 5 \
-    --config yaml/tcga_lung.yml \
-    --checkpoint_dir checkpoints/tcga_lung
-    --splits_dir splits/tcga_lung
-    --output_dir eval_results/tcga_lung
+        --seed 2024 \
+        --k_start 0\
+        --k_end 4\
+        --input_size 1024\
+        --config '../yaml/tcga_lung.yml'\
+        --checkpoint_dir '../weights/nsclc'\
+        --splits_dir '../splits/nsclc/'\
+        --ratio_graph '0.2'\
+        --alignment '../weights/alignment/plip_alignment.pth'\
+        --free_text_encoder \
+        --output_dir 'eval_results'
 ```
