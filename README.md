@@ -11,8 +11,9 @@ Anh-Tien Nguyen, Duy Minh Ho Nguyen*, Nghiem Tuong Diep*, Trung Quoc Nguyen, Nha
 
 ## 📢 News
 
-### Feb 2025
-- **Public Paper to Arxiv**: We are excited to announce that the arxiv version of MGPath is ready.
+## 💥 News 💥
+- **[11.02.2025]**: [Paper](https://arxiv.org/abs/2502.07409) is now available on arXiv !
+- **[27.02.2025]**: MGPath [Hugging Face](https://huggingface.co/tiennguyen/MGPATH/tree/main) models are released ! 
 
 ## Model Overview
 
