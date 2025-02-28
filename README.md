@@ -9,13 +9,17 @@ Anh-Tien Nguyen, Duy Minh Ho Nguyen*, Nghiem Tuong Diep*, Trung Quoc Nguyen, Nha
 
 [[`Paper`](https://arxiv.org/abs/2502.07409)]
 
-## 📢 News
 
-## 💥 News 💥
+## 💥 📢 News 💥
 - **[11.02.2025]**: [Paper](https://arxiv.org/abs/2502.07409) is now available on arXiv !
 - **[27.02.2025]**: MGPath(PLIP-G) [Hugging Face](https://huggingface.co/tiennguyen/MGPATH/tree/main) models are released !
 - **[27.02.2025]**: PLIP-G aligment [Hugging Face](https://huggingface.co/tiennguyen/MGPATH/tree/main) models are released !
 - **[27.02.2025]**: TCGA-NSCLC's embeddings [Hugging Face](https://huggingface.co/datasets/tiennguyen/MGPATH) extracted by Prov-GigaPath are release 
+
+## Installation
+
+please refer to the installation guide [Development Environment Installation](docs/env/env.md)
+
 
 ## Model Overview
 
