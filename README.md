@@ -22,7 +22,7 @@ please refer to the installation guide [Development Environment Installation](do
 
 ## Reproducibility
 
-For the testing, validation, and training slide IDs, please refer to the splits directory.
+For the testing, validation, and training slide IDs, please refer to the [splits](splits) directory.
 
 ## Model Overview
 
