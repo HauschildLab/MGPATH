@@ -16,7 +16,7 @@ Anh-Tien Nguyen, Duy Minh Ho Nguyen*, Nghiem Tuong Diep*, Trung Quoc Nguyen, Nha
 - **[27.02.2025]**: PLIP-G aligment [Hugging Face](https://huggingface.co/tiennguyen/MGPATH/tree/main) models are released !
 - **[27.02.2025]**: TCGA-NSCLC's embeddings [Hugging Face](https://huggingface.co/datasets/tiennguyen/MGPATH) extracted by Prov-GigaPath are release 
 
-## Installation
+## Development Environment Installation
 
 please refer to the installation guide [Development Environment Installation](docs/env/env.md)
 
