@@ -24,6 +24,11 @@ please refer to the installation guide [Development Environment Installation](do
 
 For the testing, validation, and training slide IDs, please refer to the [splits](splits) directory.
 
+## Model Download
+
+The aligment (Prov-GigaPath and PLIP's text encoder) weight can be download from [Hugging Face](https://huggingface.co/tiennguyen/MGPATH/tree/main).
+After downloading, please copy the weights to the directory [weights](weights) 
+
 ## Model Overview
 
 <p align="center">
