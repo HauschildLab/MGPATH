@@ -29,6 +29,13 @@ For the testing, validation, and training slide IDs, please refer to the [splits
 The aligment (Prov-GigaPath and PLIP's text encoder) weight can be download from [Hugging Face](https://huggingface.co/tiennguyen/MGPATH/tree/main).
 After downloading, please copy the weights to the directory [weights](weights) 
 
+## Embedding Download
+
+The embedding features of the mentioned datasets, extracted from GigaPath, can be downloaded from [Hugging Face](https://huggingface.co/datasets/tiennguyen/MGPATH).
+
+The spatial embedding features can be also download from [Hugging Face](https://huggingface.co/datasets/tiennguyen/MGPATH).
+
+
 ## Model Overview
 
 <p align="center">
