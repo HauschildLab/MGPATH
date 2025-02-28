@@ -20,6 +20,9 @@ Anh-Tien Nguyen, Duy Minh Ho Nguyen*, Nghiem Tuong Diep*, Trung Quoc Nguyen, Nha
 
 please refer to the installation guide [Development Environment Installation](docs/env/env.md)
 
+## Reproducibility
+
+For the testing, validation, and training slide IDs, please refer to the splits directory.
 
 ## Model Overview
 
