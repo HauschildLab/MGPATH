@@ -7,7 +7,7 @@ Anh-Tien Nguyen, Duy Minh Ho Nguyen*, Nghiem Tuong Diep*, Trung Quoc Nguyen, Nha
 
 [![Static Badge](https://img.shields.io/badge/License-MGPath-brightgreen?link=https%3A%2F%2Fgithub.com%2FHauschildLab%2FMGPATH%2F)]()
 
-[[`Paper`](https://arxiv.org/abs/2502.07409)]
+[[`Model`](https://huggingface.co/tiennguyen/MGPATH/tree/main)] [[`Paper`](https://arxiv.org/abs/2502.07409)] [[`BibTeX`](#Citation)]
 
 
 ## 💥 📢 News 💥
@@ -50,3 +50,18 @@ python3 evaluator.py \
 ## Usage and License Notices
 
 The model is not intended for clinical use as a medical device, diagnostic tool, or any technology for disease diagnosis, treatment, or prevention. It is not a substitute for professional medical advice, diagnosis, or treatment. Users are responsible for evaluating and validating the model to ensure it meets their needs before any clinical application.
+
+## Citation
+If MGPath is useful for yoru research and applications, please cite using this Bibtex:
+
+```bibtex
+@misc{nguyen2025mgpathvisionlanguagemodelmultigranular,
+      title={MGPATH: Vision-Language Model with Multi-Granular Prompt Learning for Few-Shot WSI Classification}, 
+      author={Anh-Tien Nguyen and Duy Minh Ho Nguyen and Nghiem Tuong Diep and Trung Quoc Nguyen and Nhat Ho and Jacqueline Michelle Metsch and Miriam Cindy Maurer and Daniel Sonntag and Hanibal Bohnenberger and Anne-Christin Hauschild},
+      year={2025},
+      eprint={2502.07409},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2502.07409}, 
+}
+```
