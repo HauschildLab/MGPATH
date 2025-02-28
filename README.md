@@ -55,6 +55,15 @@ python3 evaluator.py \
         --output_dir 'eval_results'
 ```
 
+## Acknowledgement
+
+The authors gratefully acknowledge the computing time granted by the KISSKI project. The calculations for this research were conducted with computing resources under the project **kisski-umg-fairpact-2**.
+
+The authors gratefully acknowledge the computing time granted by the Resource Allocation Board and provided on the supercomputer Emmy/Grete at NHR-Nord@Göttingen as part of the NHR infrastructure. The calculations for this research were conducted with computing resources under the project **nim00014**.
+
+
+
+
 ## Usage and License Notices
 
 The model is not intended for clinical use as a medical device, diagnostic tool, or any technology for disease diagnosis, treatment, or prevention. It is not a substitute for professional medical advice, diagnosis, or treatment. Users are responsible for evaluating and validating the model to ensure it meets their needs before any clinical application.
