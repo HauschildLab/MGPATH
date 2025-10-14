@@ -11,7 +11,7 @@ Anh-Tien Nguyen, Duy Minh Ho Nguyen*, Nghiem Tuong Diep*, Trung Quoc Nguyen, Nha
 
 ## 💥 📢 News 💥
 - **[14.10.2025]**: Release all source codes !
-- **[05.10.2025]**: [MGPATH] (https://openreview.net/forum?id=u7U81JLGjH) is published in Transactions on Machine Learning Research (TMLR) !
+- **[05.10.2025]**: [MGPATH](https://openreview.net/forum?id=u7U81JLGjH) is published in Transactions on Machine Learning Research (TMLR) !
 - **[11.02.2025]**: [MGPATH](https://arxiv.org/abs/2502.07409) is now available on arXiv !
 - **[27.02.2025]**: MGPath(PLIP-G) [Hugging Face](https://huggingface.co/tiennguyen/MGPATH/tree/main) models are released !
 - **[27.02.2025]**: PLIP-G aligment [Hugging Face](https://huggingface.co/tiennguyen/MGPATH/tree/main) models are released !
