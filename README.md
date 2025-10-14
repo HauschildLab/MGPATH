@@ -6,7 +6,6 @@ Anh-Tien Nguyen, Duy Minh Ho Nguyen*, Nghiem Tuong Diep*, Trung Quoc Nguyen, Nha
 (*Equal second contribution)
 
 [![Static Badge](https://img.shields.io/badge/License-MGPath-brightgreen?link=https%3A%2F%2Fgithub.com%2FHauschildLab%2FMGPATH%2F)]()
-
 [[`Model`](https://huggingface.co/tiennguyen/MGPATH/tree/main)] [[`Paper`](https://arxiv.org/abs/2502.07409)] [[`BibTeX`](#Citation)]
 
 
@@ -53,9 +52,13 @@ The spatial embedding features can be also download from [Hugging Face](https://
 
 ## Acknowledgement
 
-The authors gratefully acknowledge the computing time granted by the KISSKI project. The calculations for this research were conducted with computing resources under the project **kisski-umg-fairpact-2**.
+This work is supported in part by funds from the German Ministry of Education and Research (BMBF) under grant agreements No. 01D2208A and No. 01KD2414A (project FAIrPaCT). The authors gratefully acknowledge the computing time granted by the KISSKI project. The calculations for this research were conducted with computing resources under the project kisski-umg-fairpact-2. The authors also acknowledge the computing time granted by the Resource Allocation Board and provided on the supercomputer Emmy/Grete at NHR-Nord@Göttingen as part of the NHR infrastructure. The calculations for this research were conducted with computing resources under the project nim00014. 
 
-The authors gratefully acknowledge the computing time granted by the Resource Allocation Board and provided on the supercomputer Emmy/Grete at NHR-Nord@Göttingen as part of the NHR infrastructure. The calculations for this research were conducted with computing resources under the project **nim00014**.
+
+The project “Development of an intelligent collaboration service for AI-based collaboration between rescue services and central emergency rooms” (acronym: CONNECT_ED) is funded by the German Federal Ministry of Education and Research under grant number 16SV8977 and by the joint project KISSKI under grant number 1IS22093E. 
+
+
+The authors thank the International Max Planck Research School for Intelligent Systems (IMPRS-IS) for supporting Duy M. H. Nguyen. Duy M. H. Nguyen and Daniel Sonntag are also supported by the XAINES project (BMBF, 01IW20005), No-IDLE project (BMBF, 01IW23002), and the Endowed Chair of Applied Artificial Intelligence, Oldenburg University.
 
 
 
