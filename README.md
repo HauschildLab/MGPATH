@@ -11,10 +11,12 @@ Anh-Tien Nguyen, Duy Minh Ho Nguyen*, Nghiem Tuong Diep*, Trung Quoc Nguyen, Nha
 
 
 ## 💥 📢 News 💥
-- **[11.02.2025]**: [Paper](https://arxiv.org/abs/2502.07409) is now available on arXiv !
+- **[14.10.2025]**: Release all source codes !
+- **[05.10.2025]**: [MGPATH] (https://openreview.net/forum?id=u7U81JLGjH) is published in Transactions on Machine Learning Research (TMLR) !
+- **[11.02.2025]**: [MGPATH](https://arxiv.org/abs/2502.07409) is now available on arXiv !
 - **[27.02.2025]**: MGPath(PLIP-G) [Hugging Face](https://huggingface.co/tiennguyen/MGPATH/tree/main) models are released !
 - **[27.02.2025]**: PLIP-G aligment [Hugging Face](https://huggingface.co/tiennguyen/MGPATH/tree/main) models are released !
-- **[27.02.2025]**: TCGA-NSCLC's embeddings [Hugging Face](https://huggingface.co/datasets/tiennguyen/MGPATH) extracted by Prov-GigaPath are release 
+- **[27.02.2025]**: TCGA-NSCLC's embeddings [Hugging Face](https://huggingface.co/datasets/tiennguyen/MGPATH) extracted by Prov-GigaPath are release !
 
 ## Development Environment Installation
 
@@ -45,22 +47,9 @@ The spatial embedding features can be also download from [Hugging Face](https://
 
 </p>
 
-## Evaluate Model's Performance
+## Note
 
-```bash
-python3 evaluator.py \
-        --seed 2024 \
-        --k_start 0\
-        --k_end 4\
-        --input_size 1024\
-        --config '../yaml/tcga_lung.yml'\
-        --checkpoint_dir '../weights/nsclc'\
-        --splits_dir '../splits/nsclc/'\
-        --ratio_graph '0.2'\
-        --alignment '../weights/alignment/plip_alignment.pth'\
-        --free_text_encoder \
-        --output_dir 'eval_results'
-```
+`docs/cmd` provides essential information to play with the source codes.
 
 ## Acknowledgement
 
@@ -79,13 +68,14 @@ The model is not intended for clinical use as a medical device, diagnostic tool,
 If MGPath is useful for yoru research and applications, please cite using this Bibtex:
 
 ```bibtex
-@misc{nguyen2025mgpathvisionlanguagemodelmultigranular,
-      title={MGPATH: Vision-Language Model with Multi-Granular Prompt Learning for Few-Shot WSI Classification}, 
-      author={Anh-Tien Nguyen and Duy Minh Ho Nguyen and Nghiem Tuong Diep and Trung Quoc Nguyen and Nhat Ho and Jacqueline Michelle Metsch and Miriam Cindy Maurer and Daniel Sonntag and Hanibal Bohnenberger and Anne-Christin Hauschild},
-      year={2025},
-      eprint={2502.07409},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2502.07409}, 
+@article{
+    nguyen2025mgpath,
+    title={{MGPATH}: A Vision-Language Model with Multi-Granular Prompt Learning for Few-Shot Whole Slide Pathology Classification},
+    author={Anh-Tien Nguyen and Duy Minh Ho Nguyen and Nghiem Tuong Diep and Trung Quoc Nguyen and Nhat Ho and Jacqueline Michelle Metsch and Miriam Cindy Maurer and Daniel Sonntag and Hanibal Bohnenberger and Anne-Christin Hauschild},
+    journal={Transactions on Machine Learning Research},
+    issn={2835-8856},
+    year={2025},
+    url={https://openreview.net/forum?id=u7U81JLGjH},
+    note={}
 }
 ```

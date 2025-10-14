@@ -1,20 +1,79 @@
 # Command Line Interface
 
-## Evaluating checkpoints of K-fold cross-validation
+## Training Models
 
 ### Lung Cancer Subtype Classification (TCGA-NSCLC)
 
 ```bash
-python3 evaluator.py \
-        --seed 2024 \
-        --k_start 0\
-        --k_end 4\
-        --input_size 1024\
-        --config '../yaml/tcga_lung.yml'\
-        --checkpoint_dir '../weights/nsclc'\
-        --splits_dir '../splits/nsclc/'\
-        --ratio_graph '0.2'\
-        --alignment '../weights/alignment/plip_alignment.pth'\
-        --free_text_encoder \
-        --output_dir 'eval_results'
+typeGNN=gat_conv
+ratio=0.2
+fold=0
+fold_next=5
+
+export TOKENIZERS_PARALLELISM=false
+
+python3 main.py \
+        --seed 2023 \
+        --drop_out \
+        --early_stopping \
+        --lr 9e-4 \
+        --k 5 \
+        --task 'task_tcga_lung_subtyping' \
+        --results_dir </path/to/result/directory> \
+        --exp_code <experiment codes> \
+        --log_data \
+        --data_folder_s </path/to/embedding/directory> \
+        --data_folder_l </path/to/embedding/directory> \
+        --data_graph_dir_s </path/to/embedding/directory>\
+        --data_graph_dir_l </path/to/embedding/directory> \
+        --aug_data_folder_s </path/to/embedding/directory>\
+        --aug_data_folder_l </path/to/embedding/directory>\
+        --aug_data_graph_dir_s </path/to/embedding/directory>\
+        --aug_data_graph_dir_l </path/to/embedding/directory>\
+        --split_dir 'few_shot_splits/TCGA-NSCLC/16shots/'  \
+        --text_prompt_path 'tcga_nsclc.csv' \
+        --max_epochs 50 \
+        --typeGNN ${typeGNN} \
+        --ratio_graph ${ratio} \
+        --use_gigapath_backbone \
+        --k_start ${fold} \
+        --k_end ${fold_next} \
+        --freeze_text_encoder
+```
+
+```bash
+typeGNN=gat_conv
+ratio=0.2
+fold=0
+fold_next=5
+
+export TOKENIZERS_PARALLELISM=false
+
+python3 main.py \
+        --seed 2023 \
+        --drop_out \
+        --early_stopping \
+        --lr 9e-4 \
+        --k 5 \
+        --task 'task_tcga_brca_subtyping' \
+        --results_dir </path/to/result/directory> \
+        --exp_code <experiment codes> \
+        --log_data \
+        --data_folder_s </path/to/embedding/directory> \
+        --data_folder_l </path/to/embedding/directory> \
+        --data_graph_dir_s </path/to/embedding/directory>\
+        --data_graph_dir_l </path/to/embedding/directory> \
+        --aug_data_folder_s </path/to/embedding/directory>\
+        --aug_data_folder_l </path/to/embedding/directory>\
+        --aug_data_graph_dir_s </path/to/embedding/directory>\
+        --aug_data_graph_dir_l </path/to/embedding/directory>\
+        --split_dir 'few_shot_splits/TCGA-NSCLC/16shots/'  \
+        --text_prompt_path 'tcga_nsclc.csv' \
+        --max_epochs 50 \
+        --typeGNN ${typeGNN} \
+        --ratio_graph ${ratio} \
+        --use_gigapath_backbone \
+        --k_start ${fold} \
+        --k_end ${fold_next} \
+        --freeze_text_encoder
 ```
