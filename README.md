@@ -23,7 +23,7 @@ please refer to the installation guide [Development Environment Installation](do
 
 ## Reproducibility
 
-For the testing, validation, and training slide IDs, please refer to the [splits](splits) directory.
+For the testing, validation, and training slide IDs, please refer to the [splits](src/splits) directory.
 
 ## Model Download
 
@@ -36,6 +36,11 @@ The embedding features of the mentioned datasets, extracted from GigaPath, can b
 
 The spatial embedding features can be also download from [Hugging Face](https://huggingface.co/datasets/tiennguyen/MGPATH).
 
+## Creating splits for training and testing
+
+*) please refer to (ViLa-MIL)[https://github.com/Jiangbo-Shi/ViLa-MIL] for TCGA-NSCLC and TCGA-RCC
+
+*) please refer to (MSCPT)[https://github.com/Hanminghao/MSCPT/tree/master] for TCGA-BRCA
 
 ## Model Overview
 
